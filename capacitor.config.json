@@ -1,0 +1,6 @@
+{
+  "appId": "com.aaax.app",
+  "appName": "aaax",
+  "bundledWebRuntime": false,
+  "webDir": "dist"
+}

@@ -12,7 +12,7 @@ var mode = 'history'
 const routes = [
   {
     path: '/layout',
-    component: () => import('@/components/Layout'),
+    component: () => import('@/components/Layout2'),
     children: [
       {
         path: '/profile',
@@ -37,6 +37,10 @@ const routes = [
       {
         path: '/directory',
         component: () => import('@/components/old/Directory')
+      },
+      {
+        path: '/documents',
+        component: () => import('@/components/old/Documents')
       }
     ]
   },

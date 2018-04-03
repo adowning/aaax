@@ -2,13 +2,13 @@
 <template>
 <div>
   <v-layout row>
-    <v-flex xs12 sm6 offset-sm3>
+    <v-flex xs12 sm9 offset-sm1>
       <v-card>
         <v-toolbar flat>
           <v-btn icon>
             <v-icon>arrow_back</v-icon>
           </v-btn>
-          <v-toolbar-title>Albums</v-toolbar-title>
+          <!-- <v-toolbar-title>Albums</v-toolbar-title> -->
           <v-spacer></v-spacer>
           <v-btn icon>
             <v-icon>search</v-icon>

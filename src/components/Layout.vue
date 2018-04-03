@@ -31,17 +31,20 @@
               <v-icon light>chevron_left</v-icon>
             </v-btn>
           </v-list-tile-action>
-        
-        </v-list-tile>
-         <v-flex xs12  >
 
-    <v-btn outline small>Clock In</v-btn>
-               <v-chip small label outline color="red">Not clocked in</v-chip>
-    
-    <!-- <v-btn color="primary" small >Error</v-btn> -->
-         </v-flex>
+        </v-list-tile>
       </v-list>
- <v-divider></v-divider> 
+      <div v-show="!mini">
+          <div v-if="!user.currentTimeSheet>
+            <v-btn outline small>Clock In</v-btn>
+            <v-btn flat small> xNot Clocked In</v-btn>
+             </div>
+          </div>
+
+ <v-divider></v-divider>
+
+
+
           <template>
              <v-list class="pt-0" dense>
           <v-list-tile icon >
@@ -94,7 +97,7 @@
      </v-list-tile>
      </v-list>
       </div>
-      
+
             <v-list-tile icon >
         <v-list-tile-action>
           <v-icon>people</v-icon>
@@ -122,33 +125,9 @@
       </div>
     </v-list>
           </template>
-      <!-- <v-list>
-        <v-list-group v-for="item in items" :value="item.active" v-bind:key="item.title">
-          <v-list-tile slot="item" :ripple="!item.items" :router="!item.items" :to="item.to ? item.to : ''">
-            <v-list-tile-action icon light>
-               <v-icon icon light>person</v-icon> 
-              <v-icon light>person</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              <v-list-tile-title>person</v-list-tile-title>
-            </v-list-tile-content>
-            <v-list-tile-action v-if="item.items">
-              <v-icon light>person</v-icon>
-            </v-list-tile-action>
-          </v-list-tile>
-          <v-list-tile v-for="subItem in item.items" v-bind:key="subItem.title" ripple>
-            <v-list-tile-content>
-              <v-list-tile-title>{{ subItem.title }}</v-list-tile-title>
-            </v-list-tile-content>
-            <v-list-tile-action>
-              <v-icon>{{ subItem.action }}</v-icon>
-            </v-list-tile-action>
-          </v-list-tile>
-        </v-list-group>
-      </v-list> -->
+
     </v-navigation-drawer>
-    <v-toolbar app fixed>
-      <!-- <v-toolbar-side-icon v-if="user" light @click.stop="drawer = !drawer"></v-toolbar-side-icon> -->
+    <!-- <v-toolbar app fixed>
       <v-toolbar-title>{{name}}</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-menu bottom left>
@@ -156,16 +135,11 @@
           <v-icon>more_vert</v-icon>
         </v-btn>
       </v-menu>
-    </v-toolbar>
+    </v-toolbar> -->
     <v-content app clipped-left>
-      <!-- <v-container fluid fill-height> -->
-        <!-- <v-layout>
-          <nuxt></nuxt>
-        </v-layout> -->
         <router-view v-if="user"></router-view>
-      <!-- </v-container> -->
     </v-content>
-    <v-footer light app>
+    <v-footer  app absolute>
       <span>&copy; 2017</span>
     </v-footer>
     <!-- <v-snackbar
@@ -190,7 +164,46 @@ import Vue from 'vue'
 import 'vuetify/dist/vuetify.min.css' // Ensure you are using css-loader
 import fbApp from '../plugins/firebase'
 require('../../static/quasar')
-Vue.use(Vuetify)
+/* eslint-disable */
+// $primary = #4c566a;
+// $secondary   = #81a1c1
+// $tertiary  = #8fbcbb
+
+// $neutral   = #E0E1E2
+// $positive  = #88c0d0
+// $negative  = #DB2828
+// $info      = #31CCEC
+// $warning   = #F2C037
+
+// $body-background	= #2e3440
+// $body-color = #d8dee9
+// $table-hover-background	= #3b4252
+// $item-highlight-color	= #434c5e
+// $item-selected-color	= #434c5e
+
+Vue.use(Vuetify, {
+  theme: {
+    primary: '#4c566a',
+    secondary: '#81a1c1',
+    accent: '#8fbcbb',
+    error: '#DB2828',
+    info: '#31CCEC',
+    success: '#88c0d0',
+    warning: '#F2C037'
+  }
+})
+
+// Vue.use(Vuetify, {
+//   theme: {
+//     primary: '#1976D2',
+//     secondary: '#424242',
+//     accent: '#82B1FF',
+//     error: '#FF5252',
+//     info: '#2196F3',
+//     success: '#4CAF50',
+//     warning: '#FFC107'
+//   }
+// })
 Vue.use('Quasar')
 // console.log(fbApp)
 export default {
@@ -253,14 +266,12 @@ export default {
     }
   },
   mounted() {
-    console.log(this)
     var defaultStorage = fbApp.storage()
-    console.log(defaultStorage)
   }
 }
 </script>
 <style lang='stylus' >
-$theme ?= {
+$theme = {
   primary: '#1976D2',
   secondary: '#424242',
   accent: '#82B1FF',

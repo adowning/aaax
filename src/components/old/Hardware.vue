@@ -1,52 +1,33 @@
 <!-- eslint-disable -->
 <template>
 <div>
-      <q-tabs class="q-pa-lg" inverted color="secondary" align="justify" v-model="selectedTab">
-        <q-tab default name="list" slot="title" label="List" />
-        <q-tab name="reader" slot="title" label="QR Checkout" />
-        <q-tab-pane name="list">
-  <q-table
-    title="Assets"
-    :data="serverData"
-    :columns="columns"
-        :loading="loading"
-
-  >
-   <q-tr slot="body" slot-scope="props" :props="props">
-             <q-td key="id" :props="props"></q-td>
-      
-             <q-td key="asset_tag" :props="props">{{ props.row.asset_tag }}</q-td>
-
-         <q-td key="model" :props="props">{{ props.row.model }}</q-td>
-        <q-td key="category" :props="props">{{ props.row.category }}
-       
-        </q-td>
-        <!-- <q-td key="status_label" :props="props">{{ props.row.status_label }}</q-td> -->
-        <q-td key="assigned_to" :props="props">{{ props.row.assigned_to }}</q-td>
-        <q-td key="location" :props="props">{{ props.row.location }}</q-td>
-        <q-td key="available_actions" :props="props"></q-td>
-  
-           <q-td key="asdf" :props="props">
-          <div class="row items-center justify-between no-wrap">
-			  
-            <q-btn v-if="!props.row.assigned_to" size="sm"  small square color="amber" @click="checkOut(props.row.id, props.row.available_actions, props.row.assigned_to)" class="q-mr-xs" >Check Out</q-btn>
-            <q-btn v-if="props.row.assigned_to" size="sm"  small square color="purple" @click="checkIn(props.row.id, props.row.available_actions, props.row.assigned_to)" class="q-mr-sm" >Check In</q-btn>
-        
-          </div>
-           </q-td>
-   </q-tr>
-  </q-table>
-        </q-tab-pane>
-        <q-tab-pane  v-show="!loading" name="reader">
-
-  <qrcode-reader @init="onInit" @decode="onDecode">
-  <b>{{overlay}}</b>
-</qrcode-reader>
-     
-        </q-tab-pane>
-          <q-spinner  v-show="loading" color="secondary" :size="80" ></q-spinner>
-
-      </q-tabs>
+   <v-data-table
+      :headers="headers"
+      :items="items"
+      hide-actions
+      class="elevation-1"
+    >
+     <template slot="items" slot-scope="props">
+        <td></td>
+        <td>{{ props.item.asset_tag }}</td>
+        <td class="text-xs-right">{{ props.item.category.name }}</td>
+        <td class="text-xs-right">{{ props.item.model }}</td>
+        <td class="text-xs-right">{{ props.item.status_label }}</td>
+        <td class="text-xs-right">{{ props.item.assigned_to }}</td>
+        <td class="text-xs-right">{{ props.item.location.name }}</td>
+        <td class="justify-center layout px-0">
+          <v-btn  v-if="!props.item.assigned_to" icon class="mx-0" @click="checkOut(props.item, props.assigned_to)">
+            <v-icon color="teal">edit</v-icon>
+          </v-btn>
+            <v-btn  v-if="props.item.assigned_to" icon class="mx-0" @click="checkIn(props.item, props.item.assigned_to)">
+            <v-icon color="red">edit</v-icon>
+          </v-btn>
+        </td>
+      </template>
+      <template slot="no-data">
+        <v-btn color="primary">Reset</v-btn>
+      </template>
+    </v-data-table>
 </div>
 </template>
 <script>
@@ -63,72 +44,44 @@ export default {
     serverPagination: {
       page: 1
     },
-    columns: [
+    headers: [
       {
-        name: 'id',
-        label: '',
-        field: 'id',
-        align: 'left',
-        visible: false
-      },
-      {
-        name: 'asset_tag',
-        label: 'Asset',
-        field: 'asset_tag',
+        text: 'id',
+        value: 'id',
         align: 'left'
       },
       {
-        label: 'Model',
-        name: 'model',
-        align: 'left',
-
-        field: 'model'
+        text: 'Asset',
+        value: 'asset_tag',
+        align: 'left'
       },
       {
-        label: 'Category',
-        name: 'category',
+        text: 'Model',
         align: 'left',
-
-        field: 'category'
+        value: 'model'
       },
       {
-        label: 'Assigned To',
-        name: 'assigned_to',
+        text: 'Category',
         align: 'left',
-
-        field: 'assigned_to'
+        value: 'category'
       },
       {
-        label: 'Location',
-        name: 'location',
+        text: 'Assigned To',
         align: 'left',
-
-        field: 'location'
+        value: 'assigned_to'
       },
       {
-        name: '__slot:actions',
+        text: 'Location',
         align: 'left',
-
-        titleClass: 'center aligned',
-        dataClass: 'center aligned'
+        value: 'location'
       },
       {
-        name: 'available_actions',
-        label: '',
-        align: 'left',
-        visible: false,
-        titleClass: 'center aligned',
-        dataClass: 'center aligned'
-      },
-      {
-        name: 'asdf',
-        label: '',
-        align: 'left',
-        titleClass: 'center aligned',
-        dataClass: 'center aligned'
+        text: 'Actions',
+        sortable: false,
+        value: 'name'
       }
     ],
-    serverData: []
+    items: []
   }),
   methods: {
     selectThirdTab() {
@@ -148,8 +101,6 @@ export default {
       this.loading = true
       try {
         await promise
-
-        // successfully initialized
       } catch (error) {
         if (error.name === 'NotAllowedError') {
           // user denied camera access permisson
@@ -170,31 +121,30 @@ export default {
         this.loading = false
       }
     },
-    checkIn(assetId, actions, assigned_to) {
-      if (!actions.checkin || !assigned_to) {
+    checkIn(assetId, assigned_to) {
+      if (!assigned_to) {
         console.log('not gonna hapn capnxxx')
         return
       }
-      this.$snipeit
-        .post('hardware/checkin', { assigned_asset: assetId })
+      this.$api
+        .post('snipeit/hardware/checkin', { assigned_asset: assetId })
         .then(response => {
           console.log(response)
           this.selected = null
-          this.$router.go(this.$router.currentRoute)
-          // this.request(20, 0)
+          // this.$router.go(this.$router.currentRoute)
         })
         .catch(e => {
           console.log(e)
         })
     },
-    checkOut(assetId, actions, assigned_to) {
-      if (!actions.checkout || assigned_to) {
+    checkOut(assetId, assigned_to) {
+      if (assigned_to) {
         console.log('not gonna hapn capn')
         return
       }
 
-      this.$snipeit
-        .post('hardware/checkout', {
+      this.$api
+        .post('snipeit/hardware/checkout', {
           assigned_user: 1,
           assigned_asset: assetId
         })
@@ -211,8 +161,8 @@ export default {
     request({ pagination, filter }) {
       console.log('updating')
       this.loading = true
-      this.$snipeit
-        .get('hardware')
+      this.$api
+        .get('snipeit/hardware')
         .then(({ data }) => {
           this.serverPagination = pagination
           this.serverPagination.rowsNumber = data.rowsNumber
@@ -229,14 +179,10 @@ export default {
               item.assigned_to = item.assigned_to.name
             }
             console.log(item.available_actions.length)
-
-            // for(var action of item.available_actions){
-            //     console.log(action)
-            // }
           }
           console.log(data.rows)
           // then we update the rows with the fetched ones
-          this.serverData = data.rows
+          this.items = data.rows
 
           // finally we tell QTable to exit the "loading" state
           this.loading = false

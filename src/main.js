@@ -5,16 +5,14 @@ import App from './App'
 import router from './router.js'
 import AxiosPlugin from './plugins/axios.js'
 import store from './store'
-
-// import store from './store'
-// import Vuetify from 'vuetify'
-// import 'vuetify/dist/vuetify.min.css' // Ensure you are using css-loader
+import Vuetify from 'vuetify'
+import 'vuetify/dist/vuetify.min.css' // Ensure you are using css-loader
 
 Vue.use(store)
 Vue.use(AxiosPlugin)
 // require('../static/quasar')
 // Vue.use('Quasar')
-// Vue.use(Vuetify)
+Vue.use(Vuetify)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

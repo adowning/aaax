@@ -2,7 +2,7 @@ import axios from 'axios'
 const AuthModule = {
   state: {
     user: null,
-    currentTimeSheet: null,
+    // currentTimeSheet: null,
     isLoggedIn: null
   },
   mutations: {
@@ -10,7 +10,7 @@ const AuthModule = {
       // console.log(payload)
       if (payload) {
         state.user = payload.employee
-        state.currentTimeSheet = payload.timeClock
+        state.user.currentTimeSheet = payload.timeClock
         state.isLoggedIn = true
       } else {
         state.user = null
@@ -26,7 +26,7 @@ const AuthModule = {
       console.log(payload.currentTimeSheet)
 
       axios
-        .post('http://nr.ashdevtools.com/clock', {
+        .post('http://104.131.125.97:1880/clock', {
           id: payload.employeeId,
           notes: payload.notes
         })
@@ -45,7 +45,8 @@ const AuthModule = {
     },
     signUserIn({ commit }, payload) {
       axios
-        .post('http://nr.ashdevtools.com/login', {
+        // .post('http://ashdevtools.com:1880/login', {
+        .post('http://104.131.125.97:1880/login', {
           email: payload.email
         })
         .then(response => {

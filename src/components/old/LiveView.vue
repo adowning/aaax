@@ -1,15 +1,12 @@
 
 <template>
-<div class="q-pa-lg">
-<q-alert
-          color="warning"
-          inline
-          class="q-ma-sm"
-        > I have left most of the features for the map off until the basics are tested.</q-alert>
-
+<div class="ma-2">
+<v-alert type="warning" :value="true">
+I have left most of the features for the map off until the basics are tested.
+</v-alert>
     <div id="googleMap">
         <gmap-map style="width: 1200px; height: 700px" ref="map" class="q-ml-sm" :center="center" :zoom="zoom" map-type-id="terrain" :options="options">
-              <gmap-marker :key="i" v-for="(m,i) in markers" :position="m.position" :opened="m.ifw2" :clickable="true"        
+              <gmap-marker :key="i" v-for="(m,i) in markers" :position="m.position" :opened="m.ifw2" :clickable="true"
                @mouseover="statusText = m.text"
         @mouseout="statusText = null">
 			<gmap-info-window :opened="m.ifw">{{m.ifw2text}}</gmap-info-window>
