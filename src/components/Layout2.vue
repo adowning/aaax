@@ -1,7 +1,6 @@
 <template>
     <v-app>
       <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
-
         <v-navigation-drawer
                 width="250"
                 class="blue-grey darken-4"
@@ -207,20 +206,26 @@
                     </v-avatar>
                 </v-btn>
                 <v-list class="pa-0">
-                    <v-list-tile avatar>
-                        <v-list-tile-avatar>
+
+                    <v-list-tile avatar
+                    >
+                       <v-list-tile-avatar>
+            <img :src="user.avatar.small" />
+          </v-list-tile-avatar>
+                        <!-- <v-list-tile-avatar>
                             <v-avatar class="primary" size="48px">
-                                <v-icon dark>person</v-icon>
+                            <v-icon dark>person</v-icon>
+                                {{user.name}}
                             </v-avatar>
-                        </v-list-tile-avatar>
+                        </v-list-tile-avatar> -->
                         <v-list-tile-content>
-                            <v-list-tile-title>John Doe</v-list-tile-title>
+                            <v-list-tile-title>{{user.name}}</v-list-tile-title>
                             <v-list-tile-sub-title>Administrator</v-list-tile-sub-title>
                         </v-list-tile-content>
                     </v-list-tile>
                     <v-divider></v-divider>
 
-                    <v-list-tile key="profile" @click="">
+                    <v-list-tile key="profile" @click="gotoProfile">
                         <v-list-tile-action>
                             <v-icon>person</v-icon>
                         </v-list-tile-action>
@@ -286,8 +291,10 @@ export default {
 
   data() {
     return {
+      x: 'light',
       drawer: true,
       fixed: false,
+      pr: { link: '/profile' },
       topItems: [
         {
           icon: 'supervisor_account',
@@ -304,7 +311,7 @@ export default {
         {
           icon: 'dashboard',
           title: 'Dashboard',
-          link: '/dashboard'
+          link: ''
         },
         {
           icon: 'local_shipping',
@@ -333,7 +340,7 @@ export default {
         {
           icon: 'list',
           title: 'Logs',
-          link: '/logs'
+          link: ''
         },
         {
           icon: 'work',
@@ -360,8 +367,33 @@ export default {
       search: ''
     }
   },
-
+  computed: {
+    theme() {
+      return this.$store.getters.theme
+    },
+    user() {
+      return this.$store.getters.user
+    },
+    error() {
+      return this.$store.getters.error
+    }
+  },
+  watch: {
+    user(value) {
+      console.log(value)
+      if (value === null || value === undefined) {
+        // this.$router.push('/profile')
+        console.log('lost user')
+      }
+    },
+    theme(value) {
+      console.log(value)
+    }
+  },
   methods: {
+    gotoProfile() {
+      this.$router.push('/profile')
+    },
     onBlur() {
       this.searching = false
       this.search = ''

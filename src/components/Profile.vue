@@ -1,10 +1,140 @@
 <template>
+ <v-flex xs10 offset-xs1>
+    <v-tabs
+
+        fixed-tabs
+        color="transparent"
+        slot="extension"
+      >
+        <v-tabs-slider></v-tabs-slider>
+        <v-tab href="#tab-1" class="primary--text" >
+          Overview
+        </v-tab>
+        <v-tab href="#mobile-tabs-5-2" class="primary--text">
+         Permissions
+        </v-tab>
+        <v-tab href="#mobile-tabs-5-3" class="primary--text">
+        Payroll
+        </v-tab>
+      <v-tab-item id="tab-1">
+         <v-layout row>
+
+        <v-flex xs4>
+      <v-card
+ >
+             <v-flex
+        text-xs-center
+        layout
+        align-center
+        justify-center
+      >
+
+         <v-avatar
+          :size="200"
+        >
+          <img :src="user.avatar.large" alt="avatar">
+        </v-avatar>
+             </v-flex>
+        <v-list two-line>
+          <v-list-tile @click="">
+            <v-list-tile-action>
+              <v-icon color="indigo">phone</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>{{user.cell_phone}}</v-list-tile-title>
+              <v-list-tile-sub-title>Mobile</v-list-tile-sub-title>
+            </v-list-tile-content>
+            <v-list-tile-action>
+              <v-icon>chat</v-icon>
+            </v-list-tile-action>
+          </v-list-tile>
+          <v-list-tile @click="">
+            <v-list-tile-action></v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>{{user.home_phone}}</v-list-tile-title>
+              <v-list-tile-sub-title>Home</v-list-tile-sub-title>
+            </v-list-tile-content>
+            <v-list-tile-action>
+              <v-icon>chat</v-icon>
+            </v-list-tile-action>
+          </v-list-tile>
+          <v-divider inset></v-divider>
+          <v-list-tile @click="">
+            <v-list-tile-action>
+              <v-icon color="indigo">mail</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>{{user.email}}</v-list-tile-title>
+              <v-list-tile-sub-title>Work</v-list-tile-sub-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile @click="">
+            <v-list-tile-action></v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>{{user.email}}</v-list-tile-title>
+              <v-list-tile-sub-title>Personal</v-list-tile-sub-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-divider inset></v-divider>
+          <v-list-tile @click="">
+            <v-list-tile-action>
+              <v-icon color="indigo">location_on</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title> {{user.address}}</v-list-tile-title>
+              <v-list-tile-sub-title> {{user.city}},  {{user.state}}, {{user.zip}}</v-list-tile-sub-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list>
+      </v-card>
+        </v-flex>
+         <v-flex xs6>
+ <v-card class="ml-5">
+          <v-card-title  ><h4>Positions</h4></v-card-title>
+          <v-divider></v-divider>
+          <v-list dense>
+            <v-list-tile>
+              <v-list-tile-content>:</v-list-tile-content>
+              <v-list-tile-content class="align-end">{{ item.calories }}</v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile>
+              <v-list-tile-content>:</v-list-tile-content>
+              <v-list-tile-content class="align-end">{{ item.fat }}</v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile>
+              <v-list-tile-content>:</v-list-tile-content>
+              <v-list-tile-content class="align-end">{{ item.carbs }}</v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile>
+              <v-list-tile-content>:</v-list-tile-content>
+              <v-list-tile-content class="align-end">{{item.protein }}</v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile>
+              <v-list-tile-content>:</v-list-tile-content>
+              <v-list-tile-content class="align-end">{{ item.sodium }}</v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile>
+              <v-list-tile-content>:</v-list-tile-content>
+              <v-list-tile-content class="align-end">{{item.calcium }}</v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile>
+              <v-list-tile-content>:</v-list-tile-content>
+              <v-list-tile-content class="align-end">{{ item.iron }}</v-list-tile-content>
+            </v-list-tile>
+          </v-list>
+        </v-card>
+         </v-flex>
+         </v-layout>
+      </v-tab-item>
+      </v-tabs>
+ </v-flex>
+<!--
 <q-layout>
 <q-page-container>
   <q-page padding class="row justify-center">
 
     <div style="width: 800px; max-width: 90vw;" :v-if="userIsAuthenticated" >
-    
+
 
       <q-tabs inverted color="secondary" align="justify">
         <q-tab default name="mails" slot="title" icon="business" label="Basic Info" />
@@ -12,12 +142,12 @@
         <q-tab name="movies" slot="title" icon="history" label="Activity" />
 
         <q-tab-pane name="mails">
-                    <div class="row">  
- <div class="col-md-3 col-lg-3 " >    
-                         <img v-bind:src="user.avatar.medium" style="height: 160px;"> 
+                    <div class="row">
+ <div class="col-md-3 col-lg-3 " >
+                         <-- v-bind:src="user.avatar.medium" style="height: 160px;">
                   <div class="row justify-center">{{user.name}}</div>
                          </div>
-        <div class=" col-md-9 col-lg-9 "> 
+        <div class=" col-md-9 col-lg-9 ">
                   <q-list highlight>
                       <q-item>
                         <q-item-side label>Position:</q-item-side>
@@ -30,19 +160,19 @@
                       <q-item>
                         <q-item-side label>Hire date:</q-item-side>
                        <q-item-main>
-                        
+
                         <q-item-tile>{{user.work_start_date}}</q-item-tile>
                        </q-item-main>
 
                       </q-item>
-                
+
                         <q-item>
                         <q-item-side label>Home Address:</q-item-side>
                <q-item-main>
                  {{user.address}}
                  <br>{{user.city}}
                  <br> {{user.country}}
-                 </q-item-main>  
+                 </q-item-main>
                       </q-item>
                       <q-item>
                         <q-item-side label>Email:</q-item-side>
@@ -53,9 +183,9 @@
                         <q-item-main>{{user.cell_phone}}
                         </q-item-main>
                       </q-item>
-                     
+
                   </q-list>
-                
+
                 </div>
                     </div>
         </q-tab-pane>
@@ -70,14 +200,14 @@
     :pagination.sync="serverPagination"
     :loading="loading"
     @request="request"
-  >  
+  >
    <q-tr slot="body" slot-scope="props" :props="props">
 
     <q-td key="asset_tag" :props="props">{{ props.row.asset_tag }}</q-td>
 
          <q-td key="model" :props="props">{{ props.row.model.name }}</q-td>
         <q-td key="category" :props="props">{{ props.row.category.name }}</q-td>
-   
+
    </q-tr>
   </q-table>
   <h5 v-if="serverData.length < 1">You have nothing checked out to you</h5>
@@ -85,8 +215,8 @@
 		</q-tab-pane>
         <q-tab-pane name="movies">
 			<q-list>
-				
-				
+
+
 				<q-item tag="label">
   <q-item-main>
     <q-item-tile label>Last Active</q-item-tile>
@@ -126,24 +256,24 @@
   				</q-item>
 
 				<q-item tag="label">
- 
+
 <q-item-main>
     <q-item-tile label>Last SMS Sent</q-item-tile>
     <q-item-tile sublabel><div v-utime>{{user.last_sms_sent}}</div></q-item-tile>
   </q-item-main>
- 
+
 				</q-item>
 
-								
+
 			</q-list>
 
 		</q-tab-pane>
-		
+
       </q-tabs>
       </div>
 </q-page>
 	</q-page-container>
-</q-layout>
+</q-layout>-->
     </template>
 
 <script>
@@ -161,6 +291,19 @@ export default {
     }
   },
   data: () => ({
+    item: [
+      {
+        value: false,
+        name: 'Frozen Yogurt',
+        calories: 159,
+        fat: 6.0,
+        carbs: 24,
+        protein: 4.0,
+        sodium: 87,
+        calcium: '14%',
+        iron: '1%'
+      }
+    ],
     filter: '',
     loading: false,
     serverPagination: {

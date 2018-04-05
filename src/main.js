@@ -12,7 +12,18 @@ Vue.use(store)
 Vue.use(AxiosPlugin)
 // require('../static/quasar')
 // Vue.use('Quasar')
-Vue.use(Vuetify)
+Vue.use(Vuetify, {
+  theme: {
+    primary: '#1976D2',
+    secondary: '#424242',
+    accent: '#82B1FF',
+    error: '#FF5252',
+    info: '#2196F3',
+    success: '#4CAF50',
+    warning: '#FFC107'
+  },
+  options: { themeVariations: ['primary', 'secondary'] }
+})
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

@@ -1,60 +1,28 @@
 <template>
  <div>
-    <!-- <v-dialog v-model="dialog" max-width="500px">
-      <v-btn color="primary" dark slot="activator" class="mb-2">New Item</v-btn>
+    <v-dialog v-model="dialog" max-width="500px">
+      <v-btn disabled color="primary" dark slot="activator" class="mb-2" >New Item</v-btn>
       <v-card>
         <v-card-title>
-          <span class="headline">{{ formTitle }}</span>
+          <!-- <span class="headline">{{ formTitle }}</span> -->
         </v-card-title>
-        <v-card-text> -->
-          <!-- <v-container grid-list-md>
+        <v-card-text>
+        <v-container grid-list-md>
             <v-layout wrap>
              <v-flex xs12 sm6 md4>
-              <v-text-field label="Dessert name" v-model="editedItem.name"></v-text-field>
+              <v-text-field label="Dessert name" v-model="editedItem.amt"></v-text-field>
               </v-flex>
-              <v-flex xs12 sm6 md4>
-                <v-text-field label="Calories" v-model="editedItem.calories"></v-text-field>
-              </v-flex>
-              <v-flex xs12 sm6 md4>
-                <v-text-field label="Fat (g)" v-model="editedItem.fat"></v-text-field>
-              </v-flex>
-              <v-flex xs12 sm6 md4>
-                <v-text-field label="Carbs (g)" v-model="editedItem.carbs"></v-text-field>
-              </v-flex>
-              <v-flex xs12 sm6 md4>
-                <v-text-field label="Protein (g)" v-model="editedItem.protein"></v-text-field>
-              </v-flex>
-              <v-flex>
-               <q-td key="id" :props="props"></q-td>
-              </v-flex>
-              <v-flex xs12 sm6 md4>
-                <v-text-field label="Category Name" v-model="editedItem.name"></v-text-field>
-              </v-flex>
-              <v-flex xs12 sm6 md4>
-                <v-text-field label="Qty" v-model="editedItem.calories"></v-text-field>
-              </v-flex>
-              <v-flex xs12 sm6 md4>
-                <v-text-field label="Remaining" v-model="editedItem.fat"></v-text-field>
-              </v-flex>
-              <v-flex xs12 sm6 md4>
-                <v-text-field label="Min Amt" v-model="editedItem.carbs"></v-text-field>
-              </v-flex>
-              <v-flex xs12 sm6 md4>
-                <v-text-field label="Location" v-model="editedItem.protein"></v-text-field>
-              </v-flex>
-               <v-flex xs12 sm6 md4>
-                <v-text-field label="Assigned to" v-model="editedItem.protein"></v-text-field>
-              </v-flex>
+
             </v-layout>
-          </v-container> -->
-        <!-- </v-card-text>
+          </v-container>
+         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" flat @click.native="close">Cancel</v-btn>
           <v-btn color="blue darken-1" flat @click.native="save">Save</v-btn>
         </v-card-actions>
       </v-card>
-    </v-dialog> -->
+    </v-dialog>
     <v-data-table
       :headers="headers"
       :items="items"
@@ -69,18 +37,18 @@
         <td class="text-xs-right">{{ props.item.min_amt }}</td>
         <td class="text-xs-right">{{ props.item.location.name }}</td>
         <td class="justify-center layout px-0">
-          <v-btn icon class="mx-0" @click="editItem(props.item)">
-            <v-icon color="teal">edit</v-icon>
+                <v-btn disabled v-if="!props.item.assigned_to" color="primary" small outline @click="checkOut(props.item)">
+             Take
           </v-btn>
-          <v-btn icon class="mx-0" @click="takeItem(props.item)">
-            <v-icon color="pink">delete</v-icon>
-          </v-btn>
+
         </td>
       </template>
       <template slot="no-data">
-        <v-btn color="primary">Reset</v-btn>
       </template>
     </v-data-table>
+     <v-alert type="warning" :value="true">
+      I had to remove the ability to edit these so the "take" button is disabled
+    </v-alert>
   </div>
   <!-- <q-table
     title="Consumables"
@@ -125,21 +93,22 @@ export default {
     //   { text: 'Actions', value: 'name', sortable: false }
     // ],
     // items: [],
-    // editedIndex: -1,
-    // editedItem: {
-    //   name: '',
-    //   calories: 0,
-    //   fat: 0,
-    //   carbs: 0,
-    //   protein: 0
-    // },
-    // defaultItem: {
-    //   name: '',
-    //   calories: 0,
-    //   fat: 0,
-    //   carbs: 0,
-    //   protein: 0
-    // },
+    editedIndex: -1,
+    editedItem: {
+      name: '',
+      category: 0,
+      qty: 0,
+      remaining: 0,
+      min_amt: 0,
+      location: 0
+    },
+    defaultItem: {
+      name: '',
+      calories: 0,
+      fat: 0,
+      carbs: 0,
+      protein: 0
+    },
     headers: [
       {
         text: 'name',
@@ -179,6 +148,23 @@ export default {
     ],
     items: []
   }),
+  computed: {
+    user() {
+      return this.$store.getters.user
+    },
+    error() {
+      return this.$store.getters.error
+    }
+  },
+  watch: {
+    user(value) {
+      console.log(value)
+      if (value === null || value === undefined) {
+        // this.$router.push('/profile')
+        console.log('lost user')
+      }
+    }
+  },
   methods: {
     initialize() {
       // this.items = [
@@ -205,48 +191,63 @@ export default {
       //   }
       // ]
     },
-    // editItem(item) {
-    //   this.editedIndex = this.items.indexOf(item)
-    //   this.editedItem = Object.assign({}, item)
-    //   this.dialog = true
-    // },
+    editItem(item) {
+      this.editedIndex = this.items.indexOf(item)
+      this.editedItem = Object.assign({}, item)
+      this.dialog = true
+    },
 
-    // deleteItem(item) {
-    //   const index = this.items.indexOf(item)
-    //   confirm('Are you sure you want to delete this item?') && this.items.splice(index, 1)
-    // },
+    deleteItem(item) {
+      const index = this.items.indexOf(item)
+      confirm('Are you sure you want to delete this item?') && this.items.splice(index, 1)
+    },
 
-    // close() {
-    //   this.dialog = false
-    //   setTimeout(() => {
-    //     this.editedItem = Object.assign({}, this.defaultItem)
-    //     this.editedIndex = -1
-    //   }, 300)
-    // },
+    close() {
+      this.dialog = false
+      setTimeout(() => {
+        this.editedItem = Object.assign({}, this.defaultItem)
+        this.editedIndex = -1
+      }, 300)
+    },
 
-    // save() {
-    //   if (this.editedIndex > -1) {
-    //     Object.assign(this.items[this.editedIndex], this.editedItem)
-    //   } else {
-    //     this.items.push(this.editedItem)
-    //   }
-    //   this.close()
-    // },
+    save() {
+      if (this.editedIndex > -1) {
+        Object.assign(this.items[this.editedIndex], this.editedItem)
+      } else {
+        this.items.push(this.editedItem)
+      }
+      this.close()
+    },
     checkOut(assetId) {
       // if (!actions.checkout || assigned_to) {
       //   console.log('not gonna hapn capn')
       //   return
       // }
-
+      // this.$api
+      //   .post('snipeit/consumables/' + assetId + '/checkout', {
+      //     assigned_user: this.user.id,
+      //     assigned_asset: assetId
+      //   })
+      //   .then(response => {
+      //     console.log(response)
+      //     this.selected = null
+      //     // this.$router.go(this.$router.currentRoute)
+      //     // this.request(20, 0)
+      //   })
+      //   .catch(e => {
+      //     console.log(e)
+      //   })
+      var vm = this
       this.$api
-        .post('snipeit/consumables/' + assetId + '/checkout', {
-          assigned_user: this.user.id,
-          assigned_asset: assetId
+
+        .post('/snipeit/consumable/take', {
+          assetId: assetId,
+          assigned_user: this.user.custom['30551'].value
         })
         .then(response => {
           console.log(response)
           this.selected = null
-          // this.$router.go(this.$router.currentRoute)
+          this.$router.go(this.$router.currentRoute)
           // this.request(20, 0)
         })
         .catch(e => {
@@ -272,11 +273,6 @@ export default {
           this.loading = false
         })
     }
-  },
-  computed: {
-    // formTitle() {
-    //   return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
-    // }
   },
 
   mounted() {

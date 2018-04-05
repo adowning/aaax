@@ -17,6 +17,7 @@ const store = new Vuex.Store({
   state: {
     loading: false,
     error: null,
+    theme: 'dark',
     onlineUsers: []
   },
   mutations: {
@@ -58,6 +59,9 @@ const store = new Vuex.Store({
     },
     onlineUsers(state) {
       return state.onlineUsers
+    },
+    theme(state) {
+      return state.theme
     }
   },
   plugins: [vuexLocalStorage.plugin]
