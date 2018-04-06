@@ -411,10 +411,10 @@ export default {
     }
   }
 }
+// @import '../../../../node_modules/vuetify/src/stylus/settings/_variables.styl';
 </script>
 
 <style scoped lang="stylus">
-@import '../../../../node_modules/vuetify/src/stylus/settings/_variables.styl';
 
 .bottom-menu {
   position: absolute;
@@ -442,11 +442,7 @@ export default {
   display: none;
 }
 
-.hidden-searching {
-  @media $display-breakpoints.sm-and-down {
-    display: none !important;
-  }
-}
+
 
 .list-border-bottom {
   border-bottom: 1px solid rgba(255, 255, 255, 0.12);

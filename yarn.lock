@@ -7310,6 +7310,10 @@ vue@^2.5.2:
   version "2.5.16"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.16.tgz#07edb75e8412aaeed871ebafa99f4672584a0085"
 
+vuetify@^1.0.13:
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-1.0.13.tgz#54a802932e1fda1f9d8d1d8586c477a09c179ef3"
+
 vuex-persist@^1.1.6:
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/vuex-persist/-/vuex-persist-1.1.6.tgz#c6c7743f29018440b902ead0b3c5399c43e2b60a"
