@@ -89,8 +89,7 @@ export default {
             const data = {
               name: doc.data.cdl
             }
-            doc.data().photoUrl = '../statics/quasar-logo.png'
-            doc.data().photoUrl = '../statics/quasar-logo.png'
+            // doc.data().photoUrl = '../statics/quasar-logo.png'
             this.employees.push(doc.data())
           })
         })

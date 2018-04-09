@@ -10,8 +10,6 @@ import 'vuetify/dist/vuetify.min.css' // Ensure you are using css-loader
 
 Vue.use(store)
 Vue.use(AxiosPlugin)
-// require('../static/quasar')
-// Vue.use('Quasar')
 Vue.use(Vuetify, {
   theme: {
     primary: '#1976D2',
