@@ -12,7 +12,7 @@ features:
           sdk-generation-stage-name: Development
         paths:
           /tracks: !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/tracksHandler-20180409082644.zip
+            codeFilename: uploads/tracksHandler-20180409083510.zip
             description: 'Handler for calls to resource path : /tracks/{proxy+}'
             environment: {}
             handler: index.handler
@@ -24,7 +24,7 @@ features:
             timeout: '3'
             version: SGYF1JQWukBcGhGQGzOzOnPEPQ6eVCH5
           '/tracks/{proxy+}': !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/tracksHandler-20180409082644.zip
+            codeFilename: uploads/tracksHandler-20180409083510.zip
             description: 'Handler for calls to resource path : /tracks/{proxy+}'
             environment: {}
             handler: index.handler

@@ -288,7 +288,7 @@
 <script>
 import { Auth, Logger } from 'aws-amplify'
 import { AmplifyStore } from './amplify'
- const logger = new Logger('SignOutComp')
+const logger = new Logger('SignOutComp')
 // logger.warn('hi')
 export default {
   name: 'AndrewsAdmin',
@@ -429,6 +429,27 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+.list__tile {
+  -ms-flex-align: center;
+  align-items: center;
+  color: inherit;
+  display: -ms-flexbox;
+  display: flex;
+  font-size: 16px;
+  font-weight: 400;
+  margin: 0;
+  padding: 0 16px;
+  position: relative;
+  text-decoration: none;
+  transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.v-list-tile{
+  height: 1px;
+}
 .bottom-menu {
   position: absolute;
   width: 100%;
