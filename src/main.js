@@ -11,7 +11,7 @@ import 'vuetify/dist/vuetify.min.css' // Ensure you are using css-loader
 
 import Amplify, { Auth, Logger } from 'aws-amplify'
 // import awsExports from '../awsmobilejs/#current-backend-info/aws_exports'
-import awsExports from './aws-exports.js'
+import awsExports from 'aws-exports.js'
 Amplify.configure(awsExports)
 Amplify.Logger.LOG_LEVEL = 'DEBUG' // to show detailed logs from Amplify library
 
