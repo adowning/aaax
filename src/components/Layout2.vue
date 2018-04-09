@@ -210,7 +210,7 @@
                     <v-list-tile avatar
                     >
                        <v-list-tile-avatar>
-            <img :src="user.avatar.small" />
+            <!-- <img :src="user.avatar.small" /> -->
           </v-list-tile-avatar>
                         <!-- <v-list-tile-avatar>
                             <v-avatar class="primary" size="48px">
@@ -219,7 +219,7 @@
                             </v-avatar>
                         </v-list-tile-avatar> -->
                         <v-list-tile-content>
-                            <v-list-tile-title>{{user.name}}</v-list-tile-title>
+                            <v-list-tile-title>{{user.username}}</v-list-tile-title>
                             <v-list-tile-sub-title>Administrator</v-list-tile-sub-title>
                         </v-list-tile-content>
                     </v-list-tile>
@@ -230,12 +230,12 @@
                             <v-icon>person</v-icon>
                         </v-list-tile-action>
                         <v-list-tile-content>
-                            <v-list-tile-title>My Profile</v-list-tile-title>
+                            <v-list-tile-title>Profile</v-list-tile-title>
                         </v-list-tile-content>
                     </v-list-tile>
                     <v-divider></v-divider>
 
-                    <v-list-tile key="lock_open" @click="">
+                    <v-list-tile key="lock_open" @click="signOut">
                         <v-list-tile-action>
                             <v-icon>lock_open</v-icon>
                         </v-list-tile-action>
@@ -286,6 +286,10 @@
 </template>
 
 <script>
+import { Auth, Logger } from 'aws-amplify'
+import { AmplifyStore } from './amplify'
+ const logger = new Logger('SignOutComp')
+// logger.warn('hi')
 export default {
   name: 'AndrewsAdmin',
 
@@ -368,29 +372,39 @@ export default {
     }
   },
   computed: {
-    theme() {
-      return this.$store.getters.theme
-    },
+    //   theme() {
+    //     return this.$store.getters.theme
+    //   },
     user() {
-      return this.$store.getters.user
-    },
-    error() {
-      return this.$store.getters.error
+      return AmplifyStore.state.user
     }
+    //   error() {
+    //     return this.$store.getters.error
+    //   }
   },
-  watch: {
-    user(value) {
-      console.log(value)
-      if (value === null || value === undefined) {
-        // this.$router.push('/profile')
-        console.log('lost user')
-      }
-    },
-    theme(value) {
-      console.log(value)
-    }
-  },
+  // watch: {
+  //   // user(value) {
+  //   //   console.log(value)
+  //   //   if (value === null || value === undefined) {
+  //   //     // this.$router.push('/profile')
+  //   //     console.log('lost user')
+  //   //   }
+  //   // },
+  //   // theme(value) {
+  //   //   console.log(value)
+  //   // }
+  // },
+  // methods: {
   methods: {
+    signOut: function(event) {
+      Auth.signOut()
+        .then(data => {
+          logger.debug('sign out success', data)
+          AmplifyStore.commit('setUser', null)
+          this.$router.push('/auth/signIn')
+        })
+        .catch(err => logger.error('sign out error', err))
+    },
     gotoProfile() {
       this.$router.push('/profile')
     },
@@ -399,10 +413,10 @@ export default {
       this.search = ''
     },
 
-    searchBegin() {
-      this.searching = true
-      setTimeout(() => document.querySelector('#search').focus(), 50)
-    },
+    //     searchBegin() {
+    //       this.searching = true
+    //       setTimeout(() => document.querySelector('#search').focus(), 50)
+    //     },
 
     searchEnd() {
       this.searching = false
@@ -415,7 +429,6 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-
 .bottom-menu {
   position: absolute;
   width: 100%;
@@ -442,9 +455,12 @@ export default {
   display: none;
 }
 
-
-
 .list-border-bottom {
   border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.navigation-drawer--fixed {
+  position: fixed;
+  overflow: hidden;
 }
 </style>

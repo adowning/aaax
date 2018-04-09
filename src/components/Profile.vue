@@ -355,13 +355,13 @@ export default {
     // }
   },
   watch: {
-    user(value) {
-      console.log(value)
-      if (value === null || value === undefined) {
-        // this.$router.push('/profile')
-        console.log('lost user')
-      }
-    }
+    // user(value) {
+    //   console.log(value)
+    //   if (value === null || value === undefined) {
+    //     // this.$router.push('/profile')
+    //     console.log('lost user')
+    //   }
+    // }
   },
   mounted() {},
   created() {

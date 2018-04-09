@@ -1,4 +1,8 @@
+*
 /src/components/old/*
 /config/
+/src/aws-exports.js
 /dist/
 /*.js
+/awsmobilejs/*
+/lambda/*

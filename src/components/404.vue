@@ -11,8 +11,8 @@
 export default {
   methods: {
     gologin() {
-      window.localStorage.clear()
-      window.sessionStorage.clear()
+      // window.localStorage.clear()
+      // window.sessionStorage.clear()
       window.location = 'http://localhost:8081/'
       // this.$router.push('/')
     }

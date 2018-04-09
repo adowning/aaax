@@ -1,0 +1,96 @@
+--- !com.amazonaws.mobilehub.v0.Project 
+apps:
+  web: !com.amazonaws.mobilehub.v0.AppDO {}
+features:
+  cloudlogic: !com.amazonaws.mobilehub.v0.CloudLogic 
+    components:
+      andrewsadmin-tracks: !com.amazonaws.mobilehub.v0.API 
+        attributes:
+          disable-aws-auth: false
+          name: andrewsadmin-tracks
+          requires-signin: false
+          sdk-generation-stage-name: Development
+        paths:
+          /tracks: !com.amazonaws.mobilehub.v0.Function 
+            codeFilename: uploads/tracksHandler-20180409082644.zip
+            description: 'Handler for calls to resource path : /tracks/{proxy+}'
+            environment: {}
+            handler: index.handler
+            hashcode: vFIuDizpm7oP080iggbp0UuxhSotvg2pGlNU05QJyLc=
+            memorySize: '128'
+            modified: '2018-04-09T13:27:35.096+0000'
+            name: tracksHandler
+            runtime: nodejs6.10
+            timeout: '3'
+            version: SGYF1JQWukBcGhGQGzOzOnPEPQ6eVCH5
+          '/tracks/{proxy+}': !com.amazonaws.mobilehub.v0.Function 
+            codeFilename: uploads/tracksHandler-20180409082644.zip
+            description: 'Handler for calls to resource path : /tracks/{proxy+}'
+            environment: {}
+            handler: index.handler
+            hashcode: vFIuDizpm7oP080iggbp0UuxhSotvg2pGlNU05QJyLc=
+            memorySize: '128'
+            modified: '2018-04-09T13:27:35.096+0000'
+            name: tracksHandler
+            runtime: nodejs6.10
+            timeout: '3'
+            version: w1GOI2tptLTs9CMLt4P0C4R4ufMvKEsL
+  content-delivery: !com.amazonaws.mobilehub.v0.ContentDelivery 
+    attributes:
+      enabled: true
+      visibility: public-global
+    components:
+      release: !com.amazonaws.mobilehub.v0.Bucket {}
+  database: !com.amazonaws.mobilehub.v0.Database 
+    components:
+      database-nosql: !com.amazonaws.mobilehub.v0.NoSQLDatabase 
+        tables:
+          - !com.amazonaws.mobilehub.v0.NoSQLTable 
+            attributes:
+              category: S
+              itemId: S
+              latitude: N
+              longitude: N
+              name: S
+              userId: S
+            hashKeyName: userId
+            hashKeyType: S
+            indexes:
+              - !com.amazonaws.mobilehub.v0.NoSQLIndex 
+                hashKeyName: category
+                hashKeyType: S
+                indexName: Categories
+                rangeKeyName: longitude
+                rangeKeyType: N
+            rangeKeyName: itemId
+            rangeKeyType: S
+            tableName: ___DYNAMIC_PREFIX___-Locations
+            tablePrivacy: protected
+  mobile-analytics: !com.amazonaws.mobilehub.v0.Pinpoint 
+    components:
+      analytics: !com.amazonaws.mobilehub.v0.PinpointAnalytics {}
+  sign-in: !com.amazonaws.mobilehub.v0.SignIn 
+    attributes:
+      enabled: true
+      optional-sign-in: false
+    components:
+      sign-in-user-pools: !com.amazonaws.mobilehub.v0.UserPoolsIdentityProvider 
+        attributes:
+          alias-attributes:
+            - phone_number
+          mfa-configuration: ON
+          name: userpool
+          password-policy: !com.amazonaws.mobilehub.ConvertibleMap 
+            min-length: '8'
+            require-lower-case: false
+            require-numbers: false
+            require-symbols: false
+            require-upper-case: false
+  user-files: !com.amazonaws.mobilehub.v0.UserFiles 
+    attributes:
+      enabled: true
+  user-profiles: !com.amazonaws.mobilehub.v0.UserSettings 
+    attributes:
+      enabled: true
+name: andrewsadmin
+region: us-east-1

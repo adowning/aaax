@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import AuthModule from './AuthModule'
+// import AuthModule from './AuthModule'
+// import AuthModule from '../components/amplify/AmplifyStore'
 import VuexPersist from 'vuex-persist'
 const vuexLocalStorage = new VuexPersist({
   key: 'vuex', // The key to store the state on in the storage provider.
@@ -11,7 +12,7 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   modules: {
-    auth: AuthModule
+    // auth: AuthModule
     // timeClock: TimeClockModule
   },
   state: {

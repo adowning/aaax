@@ -94,6 +94,23 @@ export default {
           })
         })
       this.employeesLoading = false
+    },
+    listEmployees2() {
+      var params = {
+        UserPoolId: 'STRING_VALUE' /* required */,
+        AttributesToGet: [
+          'STRING_VALUE'
+          /* more items */
+        ],
+        Filter: 'STRING_VALUE',
+        Limit: 0,
+        PaginationToken: 'STRING_VALUE'
+      }
+      cognitoidentityserviceprovider.listUsers(params, function(err, data) {
+        if (err)
+          console.log(err, err.stack) // an error occurred
+        else console.log(data) // successful response
+      })
     }
   },
   created() {

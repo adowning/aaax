@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import store from '@/store'
+// import store from '@/store'
+import { AuthRouter, AuthFilter } from './components/amplify'
+
 Vue.use(VueRouter)
 var mode = 'history'
 
@@ -16,7 +18,7 @@ const routes = [
     children: [
       {
         path: '/profile',
-        component: () => import('@/components/Profile')
+        component: () => import('@/components/Profile2')
       },
       {
         path: '/hardware',
@@ -44,6 +46,12 @@ const routes = [
       }
     ]
   },
+  AuthRouter,
+  {
+    // Always leave this as last one
+    path: '/',
+    component: () => import('@/components/amplify/components/auth/SignIn')
+  },
   {
     // Always leave this as last one
     path: '*',
@@ -57,19 +65,20 @@ const Router = new VueRouter({
   mode: mode
 })
 
-Router.beforeEach((to, from, next) => {
-  if (to.path !== '/') {
-    if (store.getters.user) {
-      // console.log("There is a user, resume. (" + to.path + ")");
-      next()
-    } else {
-      console.log('There is no user, redirect to login. (' + to.path + ')')
-      next('/')
-    }
-  } else {
-    // console.log("You're on the login page");
-    next() // This is where it should have been
-  }
-})
+Router.beforeEach(AuthFilter)
+// Router.beforeEach((to, from, next) => {
+//   if (to.path !== '/') {
+//     if (store.getters.user) {
+//       // console.log("There is a user, resume. (" + to.path + ")");
+//       next()
+//     } else {
+//       console.log('There is no user, redirect to login. (' + to.path + ')')
+//       next('/')
+//     }
+//   } else {
+//     // console.log("You're on the login page");
+//     next() // This is where it should have been
+//   }
+// })
 
 export default Router

@@ -1,22 +1,26 @@
 <template>
 <div id="app">
-<div v-if="!user">
+
+<!--<div v-if="!user">
   <div class="login-page">
   <div class="form">
-    
+
       <input v-model="email" type="email" placeholder="email"/>
       <input v-model="pass" type="password" placeholder="pass"/>
       <button @click="onSignin(email, pass)">login</button>
 
   </div>
 </div>
-</div>  
-<router-view v-if="user"></router-view>
+</div>
+<router-view v-if="user"></router-view>-->
 
+<router-view></router-view>
   </div>
 </template>
 
 <script>
+import { AmplifyStore } from './components/amplify'
+
 export default {
   data() {
     return {
@@ -27,7 +31,7 @@ export default {
   },
   computed: {
     user() {
-      return this.$store.getters.user
+      return AmplifyStore.state.user
     },
     error() {
       return this.$store.getters.error
@@ -37,31 +41,31 @@ export default {
     }
   },
   watch: {
-    user(value) {
-      if (value !== null && value !== undefined) {
-        console.log(value)
-        // this.$router.push('/hello')
-        this.$router.push('/profile')
-      }
-    }
+    // user(value) {
+    //   if (value !== null && value !== undefined) {
+    //     console.log(value)
+    //     // this.$router.push('/hello')
+    //     this.$router.push('/profile')
+    //   }
+    // }
   },
   methods: {
-    onSignin(email, pass) {
-      console.log(email, pass)
-      window.localStorage.clear()
-      window.sessionStorage.clear()
-      this.$store
-        .dispatch('signUserIn', {
-          email: email,
-          password: pass
-        })
-        .then(() => {
-          console.log(this.$store.getters.user)
-        })
-    },
-    onDismissed() {
-      this.$store.dispatch('clearError')
-    }
+    // onSignin(email, pass) {
+    //   console.log(email, pass)
+    //   window.localStorage.clear()
+    //   window.sessionStorage.clear()
+    //   this.$store
+    //     .dispatch('signUserIn', {
+    //       email: email,
+    //       password: pass
+    //     })
+    //     .then(() => {
+    //       console.log(this.$store.getters.user)
+    //     })
+    // },
+    // onDismissed() {
+    //   this.$store.dispatch('clearError')
+    // }
     // onSignUp(email, pass, username) {
     //   window.localStorage.clear()
     //   window.sessionStorage.clear()
