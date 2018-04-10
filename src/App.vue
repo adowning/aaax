@@ -1,20 +1,25 @@
 <template>
-<div id="app">
+<div>
+  <div v-if="!clicked" class="pa-5">
+     <v-layout>
+    <v-flex xs10 sm4 offset-sm4>
+      <v-card>
 
-<!--<div v-if="!user">
-  <div class="login-page">
-  <div class="form">
-
-      <input v-model="email" type="email" placeholder="email"/>
-      <input v-model="pass" type="password" placeholder="pass"/>
-      <button @click="onSignin(email, pass)">login</button>
-
-  </div>
+        <v-card-title primary-title>
+          <div>
+            <h3 class="headline mb-0">AAA</h3>
+            <div class="mx-auto">You will nee your phone to log in.</div>
+          </div>
+        </v-card-title>
+        <v-card-actions>
+          <v-btn flat color="blue" @click="gotoLogin()">Login</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-flex>
+  </v-layout>
 </div>
-</div>
-<router-view v-if="user"></router-view>-->
 
-<router-view></router-view>
+ <router-view v-if="clicked"></router-view>
   </div>
 </template>
 
@@ -24,6 +29,7 @@ import { AmplifyStore } from './components/amplify'
 export default {
   data() {
     return {
+      clicked: false,
       email: '',
       pass: '',
       devMode: process.env.NODE_ENV
@@ -50,6 +56,10 @@ export default {
     // }
   },
   methods: {
+    gotoLogin() {
+      this.clicked = true
+      this.$router.push('/auth/signIn')
+    }
     // onSignin(email, pass) {
     //   console.log(email, pass)
     //   window.localStorage.clear()

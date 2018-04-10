@@ -2,19 +2,30 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 // import store from '@/store'
 import { AuthRouter, AuthFilter } from './components/amplify'
-
+import { Auth, Logger } from 'aws-amplify'
 Vue.use(VueRouter)
 var mode = 'history'
 
-// if (process.env.NODE_ENV === 'production') {
-//   mode = 'hash'
-// }
-// const Layout = () => import('@/components/Layout')
+function requireAuth(to, from, next) {
+  // logger.debug('before routing ', to, from)
+  Auth.currentAuthenticatedUser()
+    .then(user => {
+      return next()
+    })
+    .catch(err => {
+      AmplifyStore.commit('setUser', null)
+      next({
+        path: '/',
+        query: { redirect: to.fullPath }
+      })
+    })
+}
 
 const routes = [
   {
     path: '/layout',
     component: () => import('@/components/Layout2'),
+    beforeEnter: requireAuth,
     children: [
       {
         path: '/profile',
@@ -68,21 +79,5 @@ const Router = new VueRouter({
   routes,
   mode: mode
 })
-
-Router.beforeEach(AuthFilter)
-// Router.beforeEach((to, from, next) => {
-//   if (to.path !== '/') {
-//     if (store.getters.user) {
-//       // console.log("There is a user, resume. (" + to.path + ")");
-//       next()
-//     } else {
-//       console.log('There is no user, redirect to login. (' + to.path + ')')
-//       next('/')
-//     }
-//   } else {
-//     // console.log("You're on the login page");
-//     next() // This is where it should have been
-//   }
-// })
 
 export default Router

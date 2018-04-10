@@ -57,33 +57,37 @@ const AuthRouter = {
   ]
 }
 
-const AuthFilter = (to, from, next) => {
-  logger.debug('before routing ', to, from)
-  Auth.currentAuthenticatedUser()
-    .then(user => {
-      logger.warn('...has user', user)
-      AmplifyStore.commit('setUser', user)
-      Auth.currentCredentials()
-        .then(credentials => {
-          AmplifyStore.commit('setUserId', credentials.identityId)
-        })
-        .catch(err => logger.warn('get current credentials err', err))
-      next()
-    })
-    .catch(err => {
-      logger.warn('...has error', err)
-      AmplifyStore.commit('setUser', null)
-      try {
-        if (!to.name.startsWith('auth')) {
-          next('/auth/signIn')
-        } else {
-          next()
-        }
-      } catch (err) {
-        next('/auth/signIn')
-      }
-    })
-}
+// const AuthFilter = (to, from, next) => {
+//   logger.debug('before routing ', to, from)
+//   Auth.currentAuthenticatedUser()
+//     .then(user => {
+//       logger.warn('...has user', user)
+//       AmplifyStore.commit('setUser', user)
+//       Auth.currentCredentials()
+//         .then(credentials => {
+//           AmplifyStore.commit('setUserId', credentials.identityId)
+//         })
+//         .catch(err => logger.warn('get current credentials err', err))
+//       next()
+//     })
+//     .catch(err => {
+//       console.log(to.name)
+//       if (to.name != '/') {
+//         next()
+//       }
+//       logger.warn('...has error', err)
+//       AmplifyStore.commit('setUser', null)
+//       try {
+//         if (!to.name.startsWith('auth')) {
+//           next('/')
+//         } else {
+//           next()
+//         }
+//       } catch (err) {
+//         next('/')
+//       }
+//     })
+// }
 
 export default AuthRouter
 export { AuthFilter }
