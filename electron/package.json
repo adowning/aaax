@@ -1,8 +1,15 @@
 {
-  "name": "capacitor-app",
+  "name": "MyApp",
+  "private": true,
+  "productName": "MyApp",
   "version": "1.0.0",
-  "description": "An Amazing Capacitor App",
+  "author": "",
+  "description": "MyApp",
   "main": "index.js",
+  "devDependencies": {
+    "electron": "^1.8.2",
+    "electron-squirrel-startup": "^1.0.0"
+  },
   "scripts": {
     "electron:start": "electron ./"
   },
@@ -10,13 +17,9 @@
     "@capacitor/electron": "^1.0.0-alpha.28",
     "electron-is-dev": "^0.3.0"
   },
-  "devDependencies": {
-    "electron": "^1.8.2"
-  },
   "keywords": [
     "capacitor",
     "electron"
   ],
-  "author": "",
   "license": "ISC"
 }

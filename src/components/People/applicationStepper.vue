@@ -1,7 +1,11 @@
 
 <template>
-  <v-form class="ma-5" v-model="valid" ref="form" lazy-validation  netlify>
-  <v-stepper v-model="e13" vertical >
+<div>
+ <v-alert class="ma-5" type="info" :value="true">
+    This is the unfinished "already an employee" version of the applicant system.  All employees will need to fill this out since it is a part of the onboarding system that includes the ability to be paid.
+    </v-alert>
+  <v-form class="ma-5" v-model="valid" ref="form" lazy-validation netlify>
+  <v-stepper v-model="e13" vertical elevation-0  >
     <v-stepper-step step="1" complete>
       Basic Information
     </v-stepper-step>
@@ -75,8 +79,7 @@
             placeholder="Snowy Rock Pl"
             :rules="[
               () => !!address || 'This field is required',
-              () => !!address && address.length <= 25 || 'Address must be less than 25 characters',
-              addressCheck
+              () => !!address && address.length <= 25 || 'Address must be less than 25 characters'
             ]"
             v-model="address"
             ref="address"
@@ -86,7 +89,7 @@
           <v-text-field
             label="City"
             placeholder="El Paso"
-            :rules="[() => !!city || 'This field is required', addressCheck]"
+            :rules="[() => !!city || 'This field is required']"
             v-model="city"
             ref="city"
             required
@@ -107,16 +110,6 @@
             ref="zip"
             placeholder="79938"
           ></v-text-field>
-          <v-select
-            autocomplete
-            label="Country"
-            placeholder="Select..."
-            :rules="[() => !!country || 'This field is required']"
-            :items="countries"
-            v-model="country"
-            ref="country"
-            required
-          ></v-select>
 
             <v-btn color="primary" @click.native="e13 = 3">Continue</v-btn>
       <v-btn color="secondary" @click.native="e13 = 1">Back</v-btn>
@@ -261,12 +254,22 @@
         </v-container>
       <!-- </v-card> -->
       <v-btn color="primary" @click.native="e13 = 5">Continue</v-btn>
-      <v-btn flat @click.native="e13 = 3">Back</v-btn>
+      <v-btn color="secondary" @click.native="e13 = 2">Back</v-btn>
     </v-stepper-content>
     <v-stepper-step step="5">Finish</v-stepper-step>
     <v-stepper-content step="5">
-      <v-card color="grey lighten-1" class="mb-5" height="200px"></v-card>
       <!-- <v-btn color="primary" @click.native="e13 = 1">Continue</v-btn> -->
+      <v-alert type="warning" :value="true">
+      Rules and Conditions:
+By clicking "Finish" I confirm and agree that I have a valid Social Security number, I am authorized to work in the United States and I am at least 18 years of age.
+      </v-alert>
+         <v-checkbox
+      label="I agree to allow Andrews Flooring to run a background check based on the information I have provided with this application."
+      v-model="checkbox"
+      :rules="[v => !!v || 'You must agree to continue!']"
+      required
+    ></v-checkbox>
+
       <v-btn flat @click.native="e13 = 3">Back</v-btn>
     </v-stepper-content>
   </v-stepper>
@@ -278,6 +281,7 @@
     </v-btn>
     <v-btn @click="clear">clear</v-btn>
   </v-form>
+  </div>
 </template>
 
 <script>
@@ -288,10 +292,15 @@ export default {
     e13: 1,
     e1: 1,
     date: null,
+    position: '',
+    address: '',
+    city: '',
+    state: '',
+    zip: '',
     menu: false,
     menu2: false,
     d: 0,
-    valid: true,
+    valid: false,
     historySteps: 1,
     name: '',
     nameRules: [v => !!v || 'Name is required', v => (v && v.length <= 10) || 'Name must be less than 10 characters'],
