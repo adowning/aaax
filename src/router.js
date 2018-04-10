@@ -46,7 +46,7 @@ const routes = [
       },
       {
         path: '/application',
-        component: () => import('@/components/applicationStepper')
+        component: () => import('@/components/People/applicationStepper')
       }
     ]
   },

@@ -30,7 +30,7 @@
             </v-toolbar>
             <v-divider></v-divider>
 
-            <v-tooltip right :disabled="!miniVariant">
+            <v-tooltip right :disabled="!miniVariant" dense>
                 <v-toolbar flat class="transparent" dense slot="activator">
                     <v-list class="pa-0" :class="{'list-border-bottom' : miniVariant}">
                         <v-list-tile
